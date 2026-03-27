@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laura Torres — Fotografía</title>
+    <meta name="description" content="Laura Torres, fotógrafa profesional. Sesiones de retrato, bodas, eventos y moda en Madrid.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        :root{
+            --negro:#0a0a0a;--gris-900:#1a1a1a;--gris-800:#2a2a2a;--gris-700:#3a3a3a;
+            --gris-500:#6b6b6b;--gris-300:#a0a0a0;--gris-100:#e5e5e5;--blanco:#fafafa;
+            --dorado:#c9a96e;--dorado-light:#dfc08a;
+            --serif:'Playfair Display',Georgia,serif;--sans:'Inter',-apple-system,sans-serif;
+        }
+        html{scroll-behavior:smooth;font-size:16px}
+        body{font-family:var(--sans);font-weight:300;color:var(--gris-100);background:var(--negro);line-height:1.7;overflow-x:hidden}
+        a{color:inherit;text-decoration:none}
+        img{display:block;max-width:100%}
+
+        /* NAV */
+        .nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.5rem 3rem;display:flex;justify-content:space-between;align-items:center;transition:all .4s}
+        .nav.scrolled{background:rgba(10,10,10,.95);backdrop-filter:blur(20px);padding:1rem 3rem}
+        .nav-logo{font-family:var(--serif);font-size:1.3rem;font-weight:400;letter-spacing:.08em;color:var(--blanco)}
+        .nav-logo span{color:var(--dorado)}
+        .nav-links{display:flex;gap:2.5rem;list-style:none}
+        .nav-links a{font-size:.72rem;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--gris-300);transition:color .3s}
+        .nav-links a:hover{color:var(--dorado)}
+        .nav-cta{font-size:.72rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;padding:.7rem 1.8rem;border:1px solid var(--dorado);color:var(--dorado);transition:all .3s}
+        .nav-cta:hover{background:var(--dorado);color:var(--negro)}
+        .nav-toggle{display:none;flex-direction:column;gap:5px;cursor:pointer}
+        .nav-toggle span{width:24px;height:1.5px;background:var(--blanco);transition:all .3s}
+
+        /* HERO */
+        .hero{height:100vh;position:relative;display:flex;align-items:flex-end;padding:6rem 4rem}
+        .hero-bg{position:absolute;inset:0;z-index:0}
+        .hero-bg img{width:100%;height:100%;object-fit:cover}
+        .hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,10,.95) 0%,rgba(10,10,10,.3) 50%,rgba(10,10,10,.1) 100%)}
+        .hero-content{position:relative;z-index:1;max-width:800px}
+        .hero-tag{font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:var(--dorado);margin-bottom:1.5rem}
+        .hero h1{font-family:var(--serif);font-size:clamp(3rem,7vw,6rem);font-weight:400;line-height:1.05;color:var(--blanco);margin-bottom:1.5rem}
+        .hero h1 em{font-style:italic;color:var(--dorado)}
+        .hero p{font-size:1.05rem;color:var(--gris-300);max-width:480px;margin-bottom:2.5rem}
+        .hero-scroll{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;color:var(--gris-500);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;animation:bounce 2s infinite}
+        .hero-scroll .line{width:1px;height:30px;background:linear-gradient(var(--gris-500),transparent)}
+        @keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+
+        /* SECTIONS */
+        section{padding:7rem 3rem}
+        .inner{max-width:1200px;margin:0 auto}
+        .section-tag{font-size:.65rem;font-weight:500;letter-spacing:.3em;text-transform:uppercase;color:var(--dorado);margin-bottom:1rem}
+        .section-title{font-family:var(--serif);font-size:clamp(2rem,4vw,3.5rem);font-weight:400;line-height:1.15;color:var(--blanco);margin-bottom:1.5rem}
+        .section-desc{color:var(--gris-300);max-width:550px;font-size:.95rem}
+        .divider{width:50px;height:1px;background:var(--dorado);margin:1.5rem 0}
+
+        /* PORTFOLIO */
+        .portfolio{background:var(--negro)}
+        .portfolio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-top:3rem}
+        .portfolio-item{position:relative;overflow:hidden;cursor:pointer;aspect-ratio:3/4}
+        .portfolio-item.wide{grid-column:span 2;aspect-ratio:3/2}
+        .portfolio-item img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.25,.46,.45,.94)}
+        .portfolio-item:hover img{transform:scale(1.08)}
+        .portfolio-item .overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,10,.7),transparent 60%);opacity:0;transition:opacity .4s;display:flex;align-items:flex-end;padding:1.5rem}
+        .portfolio-item:hover .overlay{opacity:1}
+        .portfolio-item .overlay h3{font-family:var(--serif);font-size:1.2rem;color:var(--blanco);font-weight:400}
+        .portfolio-item .overlay span{font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--dorado);display:block;margin-top:.3rem}
+
+        /* SERVICES */
+        .services{background:var(--gris-900)}
+        .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
+        .svc-card{background:var(--gris-800);padding:2.5rem;transition:all .4s;border:1px solid transparent;position:relative;overflow:hidden}
+        .svc-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:var(--dorado);transform:scaleX(0);transform-origin:left;transition:transform .4s}
+        .svc-card:hover::before{transform:scaleX(1)}
+        .svc-card:hover{border-color:var(--gris-700);transform:translateY(-4px)}
+        .svc-price{font-family:var(--serif);font-size:2rem;color:var(--dorado);margin-bottom:.5rem}
+        .svc-price small{font-size:.7rem;color:var(--gris-500);font-family:var(--sans)}
+        .svc-card h3{font-family:var(--serif);font-size:1.4rem;font-weight:400;margin-bottom:1rem;color:var(--blanco)}
+        .svc-card p{color:var(--gris-300);font-size:.85rem;line-height:1.8;margin-bottom:1.5rem}
+        .svc-features{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+        .svc-features li{font-size:.8rem;color:var(--gris-300);padding-left:1.2rem;position:relative}
+        .svc-features li::before{content:'✓';position:absolute;left:0;color:var(--dorado)}
+        .svc-btn{display:inline-block;margin-top:1.5rem;padding:.8rem 2rem;font-size:.65rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;border:1px solid var(--dorado);color:var(--dorado);transition:all .3s}
+        .svc-btn:hover{background:var(--dorado);color:var(--negro)}
+
+        /* ABOUT */
+        .about{background:var(--negro)}
+        .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;margin-top:3rem}
+        .about-img{position:relative}
+        .about-img img{width:100%;aspect-ratio:3/4;object-fit:cover}
+        .about-img::after{content:'';position:absolute;top:1rem;left:1rem;right:-1rem;bottom:-1rem;border:1px solid var(--dorado);z-index:-1}
+        .about-text p{color:var(--gris-300);margin-bottom:1.5rem;font-size:.95rem}
+        .about-stats{display:flex;gap:3rem;margin-top:2rem;padding-top:2rem;border-top:1px solid var(--gris-800)}
+        .about-stat-num{font-family:var(--serif);font-size:2.5rem;color:var(--dorado);line-height:1}
+        .about-stat-label{font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gris-500);margin-top:.3rem}
+
+        /* TESTIMONIALS */
+        .testimonials{background:var(--gris-900)}
+        .test-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin-top:3rem}
+        .test-card{background:var(--gris-800);padding:2.5rem;position:relative}
+        .test-card::before{content:'"';font-family:var(--serif);font-size:6rem;color:var(--dorado);opacity:.3;position:absolute;top:0;left:1.5rem;line-height:1}
+        .test-card p{font-family:var(--serif);font-size:1.1rem;font-style:italic;line-height:1.8;color:var(--gris-100);margin-bottom:1.5rem;position:relative;z-index:1}
+        .test-author{display:flex;align-items:center;gap:1rem}
+        .test-avatar{width:40px;height:40px;border-radius:50%;background:var(--dorado);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:1rem;color:var(--negro)}
+        .test-name{font-size:.8rem;font-weight:500;color:var(--blanco)}
+        .test-role{font-size:.7rem;color:var(--gris-500)}
+
+        /* CTA */
+        .cta{background:var(--negro);text-align:center;padding:8rem 3rem;position:relative}
+        .cta::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(201,169,110,.08),transparent 70%);pointer-events:none}
+        .cta h2{font-family:var(--serif);font-size:clamp(2rem,5vw,4rem);font-weight:400;color:var(--blanco);margin-bottom:1rem}
+        .cta h2 em{color:var(--dorado);font-style:italic}
+        .cta p{color:var(--gris-300);max-width:500px;margin:0 auto 2.5rem}
+        .cta-btn{display:inline-block;padding:1rem 3rem;font-size:.7rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;background:var(--dorado);color:var(--negro);transition:all .3s}
+        .cta-btn:hover{background:var(--dorado-light);transform:translateY(-2px)}
+
+        /* CONTACT */
+        .contact{background:var(--gris-900)}
+        .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;margin-top:3rem}
+        .contact-info-item{display:flex;gap:1rem;margin-bottom:2rem;align-items:flex-start}
+        .contact-icon{width:20px;height:20px;color:var(--dorado);flex-shrink:0;margin-top:2px}
+        .contact-info-label{font-size:.7rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--dorado);margin-bottom:.2rem}
+        .contact-info-value{color:var(--gris-300);font-size:.9rem}
+        .form-group{display:flex;flex-direction:column;gap:.5rem;margin-bottom:1.2rem}
+        .form-group label{font-size:.65rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--gris-500)}
+        .form-group input,.form-group textarea,.form-group select{padding:.9rem 1rem;background:var(--gris-800);border:1px solid var(--gris-700);color:var(--blanco);font-family:var(--sans);font-size:.9rem;font-weight:300;outline:none;transition:border .3s}
+        .form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--dorado)}
+        .form-group textarea{resize:vertical;min-height:120px}
+        .form-group select option{background:var(--gris-800)}
+        .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+        .form-submit{display:inline-block;padding:1rem 2.5rem;font-size:.7rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;background:var(--dorado);color:var(--negro);border:none;cursor:pointer;transition:all .3s;margin-top:.5rem}
+        .form-submit:hover{background:var(--dorado-light)}
+
+        /* FOOTER */
+        footer{background:var(--negro);padding:3rem;border-top:1px solid var(--gris-800)}
+        .footer-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+        .footer-logo{font-family:var(--serif);font-size:1.1rem;color:var(--blanco)}
+        .footer-logo span{color:var(--dorado)}
+        .footer-links{display:flex;gap:2rem}
+        .footer-links a{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gris-500);transition:color .3s}
+        .footer-links a:hover{color:var(--dorado)}
+        .footer-copy{font-size:.7rem;color:var(--gris-700)}
+
+        /* RESPONSIVE */
+        @media(max-width:968px){
+            .nav{padding:1rem 2rem}.nav-links,.nav-cta{display:none}
+            .nav-toggle{display:flex}
+            .nav-links.active{display:flex;position:fixed;inset:0;background:var(--negro);flex-direction:column;justify-content:center;align-items:center;gap:2rem;z-index:99}
+            .portfolio-grid{grid-template-columns:1fr 1fr}
+            .portfolio-item.wide{grid-column:span 1}
+            .services-grid{grid-template-columns:1fr 1fr}
+            .about-grid,.contact-grid{grid-template-columns:1fr}
+            .test-grid{grid-template-columns:1fr}
+        }
+        @media(max-width:600px){
+            section{padding:5rem 1.5rem}
+            .hero{padding:4rem 1.5rem}
+            .portfolio-grid,.services-grid{grid-template-columns:1fr}
+            .form-row{grid-template-columns:1fr}
+            .about-stats{flex-wrap:wrap;gap:2rem}
+            .footer-inner{flex-direction:column;gap:1.5rem;text-align:center}
+            .footer-links{flex-wrap:wrap;justify-content:center}
+        }
+    </style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+    <a href="#" class="nav-logo">Laura <span>Torres</span></a>
+    <ul class="nav-links" id="navLinks">
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#sobre-mi">Sobre Mí</a></li>
+        <li><a href="#opiniones">Opiniones</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+    </ul>
+    <a href="#contacto" class="nav-cta">Reservar Sesión</a>
+    <div class="nav-toggle" id="navToggle"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-bg">
+        <img src="https://images.unsplash.com/photo-1554080353-a576cf803bda?w=1600&q=85" alt="Laura Torres Fotografía">
+    </div>
+    <div class="hero-content">
+        <p class="hero-tag">Fotografía Profesional — Madrid</p>
+        <h1>Capturo tu <em>mejor momento</em></h1>
+        <p>Retratos, bodas, eventos y moda. Cada imagen cuenta una historia. La tuya.</p>
+        <a href="#contacto" class="nav-cta" style="display:inline-block">Reservar Sesión</a>
+    </div>
+    <div class="hero-scroll"><span>Descubre</span><div class="line"></div></div>
+</section>
+
+<!-- PORTFOLIO -->
+<section class="portfolio" id="portfolio">
+    <div class="inner">
+        <p class="section-tag">Portfolio</p>
+        <h2 class="section-title">Últimos trabajos</h2>
+        <div class="divider"></div>
+        <div class="portfolio-grid">
+            <div class="portfolio-item wide">
+                <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=1000&q=80" alt="Boda">
+                <div class="overlay"><div><h3>Boda de Marta & Pablo</h3><span>Bodas</span></div></div>
+            </div>
+            <div class="portfolio-item">
+                <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=600&q=80" alt="Retrato">
+                <div class="overlay"><div><h3>Sesión Editorial</h3><span>Retratos</span></div></div>
+            </div>
+            <div class="portfolio-item">
+                <img src="https://images.unsplash.com/photo-1504703395950-b89145a5425b?w=600&q=80" alt="Moda">
+                <div class="overlay"><div><h3>Lookbook Primavera</h3><span>Moda</span></div></div>
+            </div>
+            <div class="portfolio-item">
+                <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&q=80" alt="Evento">
+                <div class="overlay"><div><h3>Evento Corporativo</h3><span>Eventos</span></div></div>
+            </div>
+            <div class="portfolio-item wide">
+                <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1000&q=80" alt="Familia">
+                <div class="overlay"><div><h3>Sesión Familiar</h3><span>Familia</span></div></div>
+            </div>
+            <div class="portfolio-item">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80" alt="Retrato">
+                <div class="overlay"><div><h3>Retrato Corporativo</h3><span>Profesional</span></div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="servicios">
+    <div class="inner">
+        <p class="section-tag">Servicios</p>
+        <h2 class="section-title">Inversión en recuerdos</h2>
+        <p class="section-desc">Cada sesión incluye edición profesional, galería privada online y entrega en alta resolución.</p>
+        <div class="services-grid">
+            <div class="svc-card">
+                <div class="svc-price">150€ <small>/ sesión</small></div>
+                <h3>Retrato Individual</h3>
+                <p>Sesión de 1 hora en estudio o exteriores. Ideal para LinkedIn, redes sociales o regalo personal.</p>
+                <ul class="svc-features">
+                    <li>1 hora de sesión</li>
+                    <li>2 cambios de vestuario</li>
+                    <li>15 fotos editadas</li>
+                    <li>Galería privada online</li>
+                    <li>Entrega en 7 días</li>
+                </ul>
+                <a href="#contacto" class="svc-btn">Reservar</a>
+            </div>
+            <div class="svc-card" style="border-color:var(--dorado)">
+                <div class="svc-price">350€ <small>/ sesión</small></div>
+                <h3>Sesión de Pareja / Familia</h3>
+                <p>2 horas capturando momentos auténticos. Perfecta para parejas, familias o embarazadas.</p>
+                <ul class="svc-features">
+                    <li>2 horas de sesión</li>
+                    <li>Exteriores o en casa</li>
+                    <li>35 fotos editadas</li>
+                    <li>Mini álbum digital</li>
+                    <li>5 fotos impresas 20x30</li>
+                </ul>
+                <a href="#contacto" class="svc-btn">Reservar</a>
+            </div>
+            <div class="svc-card">
+                <div class="svc-price">1.800€ <small>/ día</small></div>
+                <h3>Bodas & Celebraciones</h3>
+                <p>Cobertura completa del día más especial. Reportaje + sesión romántica + álbum de lujo.</p>
+                <ul class="svc-features">
+                    <li>Cobertura completa (10h)</li>
+                    <li>Segundo fotógrafo</li>
+                    <li>300+ fotos editadas</li>
+                    <li>Álbum físico de lujo</li>
+                    <li>Vídeo highlights 3min</li>
+                </ul>
+                <a href="#contacto" class="svc-btn">Reservar</a>
+            </div>
+            <div class="svc-card">
+                <div class="svc-price">250€ <small>/ sesión</small></div>
+                <h3>Evento Corporativo</h3>
+                <p>Cobertura profesional de eventos empresariales, congresos, lanzamientos y fiestas.</p>
+                <ul class="svc-features">
+                    <li>3 horas de cobertura</li>
+                    <li>Fotos candid + posadas</li>
+                    <li>50 fotos editadas</li>
+                    <li>Entrega 48h</li>
+                    <li>Derechos de uso comercial</li>
+                </ul>
+                <a href="#contacto" class="svc-btn">Reservar</a>
+            </div>
+            <div class="svc-card">
+                <div class="svc-price">400€ <small>/ sesión</small></div>
+                <h3>Moda & Lookbook</h3>
+                <p>Sesiones editoriales para marcas, diseñadores y modelos. Dirección de arte incluida.</p>
+                <ul class="svc-features">
+                    <li>3 horas de sesión</li>
+                    <li>Dirección creativa</li>
+                    <li>40 fotos editadas</li>
+                    <li>Retoque avanzado</li>
+                    <li>Derechos comerciales</li>
+                </ul>
+                <a href="#contacto" class="svc-btn">Reservar</a>
+            </div>
+            <div class="svc-card">
+                <div class="svc-price">180€ <small>/ sesión</small></div>
+                <h3>Personal Branding</h3>
+                <p>Imagen profesional para emprendedores, coaches y profesionales que quieren destacar.</p>
+                <ul class="svc-features">
+                    <li>1.5 horas de sesión</li>
+                    <li>3 looks diferentes</li>
+                    <li>20 fotos editadas</li>
+                    <li>Optimizado para redes</li>
+                    <li>Asesoría de imagen</li>
+                </ul>
+                <a href="#contacto" class="svc-btn">Reservar</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="sobre-mi">
+    <div class="inner">
+        <div class="about-grid">
+            <div class="about-img">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&q=80" alt="Laura Torres">
+            </div>
+            <div>
+                <p class="section-tag">Sobre Mí</p>
+                <h2 class="section-title">Hola, soy Laura</h2>
+                <div class="divider"></div>
+                <p>Llevo más de 8 años capturando momentos que se convierten en recuerdos para siempre. Empecé con una cámara prestada de mi padre y hoy dirijo mi propio estudio en el centro de Madrid.</p>
+                <p>Mi estilo combina lo natural con lo artístico. Busco esa luz perfecta, ese gesto espontáneo, esa mirada que lo dice todo. No creo en las fotos posadas — creo en las fotos que emocionan.</p>
+                <p>Cada sesión es única porque cada persona es única. Mi trabajo es sacar lo mejor de ti.</p>
+                <div class="about-stats">
+                    <div>
+                        <div class="about-stat-num">8+</div>
+                        <div class="about-stat-label">Años de experiencia</div>
+                    </div>
+                    <div>
+                        <div class="about-stat-num">500+</div>
+                        <div class="about-stat-label">Sesiones</div>
+                    </div>
+                    <div>
+                        <div class="about-stat-num">50+</div>
+                        <div class="about-stat-label">Bodas</div>
+                    </div>
+                    <div>
+                        <div class="about-stat-num">98%</div>
+                        <div class="about-stat-label">Clientes felices</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="opiniones">
+    <div class="inner">
+        <p class="section-tag">Opiniones</p>
+        <h2 class="section-title">Lo que dicen mis clientes</h2>
+        <div class="divider"></div>
+        <div class="test-grid">
+            <div class="test-card">
+                <p>Laura capturó exactamente lo que queríamos para nuestra boda. Las fotos son increíbles, llenas de emoción y naturalidad. No podríamos estar más contentos.</p>
+                <div class="test-author">
+                    <div class="test-avatar">M</div>
+                    <div><div class="test-name">Marta & Pablo</div><div class="test-role">Boda — Septiembre 2025</div></div>
+                </div>
+            </div>
+            <div class="test-card">
+                <p>Necesitaba fotos profesionales para mi nuevo negocio y Laura superó todas mis expectativas. En 2 horas me hizo sentir cómoda y el resultado fue espectacular.</p>
+                <div class="test-author">
+                    <div class="test-avatar">A</div>
+                    <div><div class="test-name">Ana García</div><div class="test-role">Personal Branding</div></div>
+                </div>
+            </div>
+            <div class="test-card">
+                <p>Contratamos a Laura para nuestro evento de empresa y fue un acierto total. Profesional, discreta y con un ojo increíble para capturar momentos especiales.</p>
+                <div class="test-author">
+                    <div class="test-avatar">C</div>
+                    <div><div class="test-name">Carlos Ruiz</div><div class="test-role">Evento corporativo — TechConf 2025</div></div>
+                </div>
+            </div>
+            <div class="test-card">
+                <p>Las fotos de mi embarazo son las más bonitas que tengo. Laura tiene una paciencia increíble y una capacidad única para hacer que todo luzca mágico.</p>
+                <div class="test-author">
+                    <div class="test-avatar">L</div>
+                    <div><div class="test-name">Lucía Martín</div><div class="test-role">Sesión de embarazo</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+    <div class="inner">
+        <p class="section-tag">¿Lista para tu sesión?</p>
+        <h2>Tu historia merece ser <em>contada</em></h2>
+        <p>Cada sesión incluye una consulta previa gratuita donde definimos estilo, vestuario y locación.</p>
+        <a href="#contacto" class="cta-btn">Reserva Tu Sesión</a>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contacto">
+    <div class="inner">
+        <p class="section-tag">Contacto</p>
+        <h2 class="section-title">Hablemos</h2>
+        <div class="divider"></div>
+        <div class="contact-grid">
+            <div>
+                <div class="contact-info-item">
+                    <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <div><div class="contact-info-label">Estudio</div><div class="contact-info-value">Calle Fuencarral, 28, Local 3<br>28004 Madrid</div></div>
+                </div>
+                <div class="contact-info-item">
+                    <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    <div><div class="contact-info-label">Teléfono</div><div class="contact-info-value">+34 612 345 678</div></div>
+                </div>
+                <div class="contact-info-item">
+                    <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    <div><div class="contact-info-label">Email</div><div class="contact-info-value">hola@latorresfoto.es</div></div>
+                </div>
+                <div class="contact-info-item">
+                    <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    <div><div class="contact-info-label">Horario</div><div class="contact-info-value">Lunes a Viernes: 10:00 – 19:00<br>Sábados: 10:00 – 14:00</div></div>
+                </div>
+            </div>
+            <form onsubmit="handleSubmit(event)">
+                <div class="form-row">
+                    <div class="form-group"><label>Nombre</label><input type="text" placeholder="Tu nombre" required></div>
+                    <div class="form-group"><label>Teléfono</label><input type="tel" placeholder="+34 600 000 000" required></div>
+                </div>
+                <div class="form-group"><label>Email</label><input type="email" placeholder="tu@email.com" required></div>
+                <div class="form-group">
+                    <label>Tipo de sesión</label>
+                    <select required>
+                        <option value="">Selecciona...</option>
+                        <option>Retrato Individual — 150€</option>
+                        <option>Pareja / Familia — 350€</option>
+                        <option>Bodas — desde 1.800€</option>
+                        <option>Evento Corporativo — 250€</option>
+                        <option>Moda & Lookbook — 400€</option>
+                        <option>Personal Branding — 180€</option>
+                        <option>Otro</option>
+                    </select>
+                </div>
+                <div class="form-group"><label>Fecha preferida</label><input type="date"></div>
+                <div class="form-group"><label>Mensaje</label><textarea placeholder="Cuéntame qué tienes en mente..."></textarea></div>
+                <button type="submit" class="form-submit">Enviar Solicitud</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-inner">
+        <div class="footer-logo">Laura <span>Torres</span> — Fotografía</div>
+        <div class="footer-links">
+            <a href="#portfolio">Portfolio</a>
+            <a href="#servicios">Servicios</a>
+            <a href="#sobre-mi">Sobre Mí</a>
+            <a href="#contacto">Contacto</a>
+            <a href="#">Instagram</a>
+        </div>
+        <div class="footer-copy">© 2026 Laura Torres. Todos los derechos reservados.</div>
+    </div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>50));
+document.getElementById('navToggle').addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('active'));
+document.querySelectorAll('.nav-links a').forEach(a=>a.addEventListener('click',()=>document.getElementById('navLinks').classList.remove('active')));
+function handleSubmit(e){e.preventDefault();alert('¡Gracias! Te contactaré en las próximas 24 horas.');e.target.reset()}
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',function(e){e.preventDefault();const t=document.querySelector(this.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'})}));
+</script>
+</body>
+</html>
